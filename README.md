@@ -1,2 +1,2 @@
 # DSA-JAVA
-Leetcode, Coding Ninja and geeks for geeks.
+Programs of Leetcode, Coding Ninja and geeks for geeks.
