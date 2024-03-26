@@ -1,0 +1,19 @@
+Optimal solution used HashMap- TC - O(nlogn) + O(n) and SC -> O(n)
+
+public static int getLongestZeroSumSubarrayLength(int []arr){
+        // Write your code here.
+        int max=0;
+        int sum=0;
+        HashMap<Integer,Integer> mpp = new HashMap<>();
+        for(int i=0; i<arr.length;i++){
+            sum+=arr[i];
+            if(sum==0) max=i+1;
+            else{
+                if(mpp.containsKey(sum)){
+                    max = Math.max(max,i-mpp.get(sum));
+                }
+                else mpp.put(sum,i);
+            }
+        }
+        return max;
+    }
