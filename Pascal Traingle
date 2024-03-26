@@ -1,0 +1,64 @@
+pascal traingle problem.
+1. ques is . find element from the traingle. Like an example n=5, c=3; use ncr method.
+2. print single row.
+3. print traingle.
+
+code for 1st problem
+use           n-1 C r-1.
+code - 
+function(n,r){
+int res=1;
+for(int i=0;i<r;i++){
+res=res(n-i)/(i+1);
+}
+return res;
+}
+                              Code for 2nd problem;
+  
+function(int n){
+int   ans=1;
+for(int i=1;i<n;i++){
+ans=ans*(n-i)/i;
+}
+return ans;
+}
+                              Code for 3rd problem
+class Solution {
+    public List<Integer> generaterows(int row){
+        int num = 1;
+        List<Integer> ans = new ArrayList<>();
+        ans.add(1);
+        for(int col=1; col<row;col++){
+            num=num*(row-col)/(col);
+            ans.add(num);
+        }
+        return ans;
+    }
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i=1; i<=numRows;i++){
+            ans.add(generaterows(i));
+        }
+        return ans;
+    }
+}
+
+on coding ninja
+public static int[] generaterows(int n){
+        int[] temp = new int[n];
+        int ans=1;
+        temp[0]=1;
+        for(int i=1;i<n;i++){
+            ans = ans*(n-i)/i;
+            temp[i] = ans;
+        }
+        return temp;
+    }
+    public static int[][] pascalTriangle(int N) {
+        // Write your code here.
+        int[][] ans = new int[N][];
+        for(int i=0; i<N;i++){
+            ans[i]=generaterows(i+1);
+        }
+        return ans;
+    }
