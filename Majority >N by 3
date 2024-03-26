@@ -1,0 +1,56 @@
+Brute force code
+TC - O(n2) sc- O(n)
+    List<Integer> ans = new ArrayList<>();
+    for(int i=0; i<v.length;i++){
+        int cnt=0;
+        if(ans.size()==0 || ans.get(0)!=v[i]){
+            cnt=0;
+            for(int j=0; j<v.length;j++){
+                if(v[j]==v[i]){
+                    cnt++;
+                }
+            }
+            if(cnt>v.length/3) ans.add(v[i]);
+        }
+        if(ans.size()==2) break;
+    }
+    Collections.sort(ans);
+    return ans;
+
+------------------------ 2nd brute force we can do with Hashmap also --- TC -> O(n) but sc -> O(n)
+
+---------------------- 3rd Optimal solution TC - O(2n) sc- O(1)
+public static List< Integer > majorityElement(int []v) {
+        int el1=0, el2=0, cnt1=0, cnt2=0;
+        for(int i=0; i<v.length;i++){
+            if(cnt1==0 && v[i]!=el2){
+                cnt1=1; 
+                el1=v[i];
+            }
+            else if(cnt2==0 && v[i]!=el1){
+                cnt2=1; 
+                el2=v[i];
+            }
+            else if(el1==v[i]) cnt1++;
+            else if(el2==v[i]) cnt2++;
+            else{
+                cnt1--;
+                cnt2--;
+            }
+        }
+        List<Integer> ls= new ArrayList<>();
+        cnt1=0;
+        cnt2=0;
+        for(int i=0; i<v.length;i++){
+            if(v[i]==el1){
+                cnt1++;
+            }
+            else if(v[i]==el2){
+                cnt2++;
+            }
+        }
+        int minimum= (int)(v.length/3)+1;
+        if(cnt1>=minimum) ls.add(el1);
+        if(cnt2>=minimum) ls.add(el2);
+        return ls;
+    }
