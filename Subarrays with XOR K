@@ -1,0 +1,28 @@
+Optimal solution-> using HashMap. TC -> O(n) or O(nlogn). And SC -> O(n) worst case if having all unique elements to store in hashmap.
+
+public static int subarraysWithSumK(int []a, int b) {
+        int n= a.length;
+        int xr=0;
+        Map<Integer, Integer> mpp = new HashMap<>();
+        mpp.put(xr,1);
+        int cnt=0;
+        for(int i=0; i<n; i++){
+            xr=xr^a[i];
+            int x= xr^b;
+            if(mpp.containsKey(x)) cnt +=mpp.get(x);
+            if(mpp.containsKey(xr)) mpp.put(xr,mpp.get(xr)+1);
+            else mpp.put(xr,1);
+        }
+        return cnt;
+    }
+----------------------------------------------- better solution TC is -. O(n2) and sc -> O(1). (Partially accepted due to large TC)
+
+        int cnt=0;
+        for(int i=0; i<a.length;i++){
+            int xor=0;
+            for(int j=i;j<a.length;j++){
+                xor=xor^a[j];
+                if(xor==b) cnt++;
+            }
+        }
+        return cnt;
