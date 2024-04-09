@@ -1,0 +1,47 @@
+----------------- memoization code ----------- with TC - O(n) and SC -> O(n) + O(n)------------
+public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
+int n = nums.size();
+		int[] dp = new int[n];
+		Arrays.fill(dp,-1);
+		return f(n-1, nums,dp);
+}
+static int f(int ind, ArrayList<Integer> nums, int[] dp){
+		if(ind==0) return nums.get(ind);
+		if(ind<0) return 0;
+		if(dp[ind]!=-1) return dp[ind];
+		int pick = nums.get(ind) + f(ind-2,nums,dp);
+		int notpick = 0 + f(ind-1, nums,dp);
+		return dp[ind] = Math.max(pick,notpick);
+}
+
+-----------------------------tabulation code---------- TC -> O(n)  and SC -> O(n)------------
+
+public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
+    int n = nums.size();
+		int[] dp = new int[n];
+		dp[0]=nums.get(0);
+		for(int i=1; i<n;i++){
+			int take = nums.get(i);
+			if(i>1) take+= dp[i-2];
+			int notake = 0 + dp[i-1];
+			dp[i] = Math.max(take, notake);
+		}
+		return dp[n-1];
+}
+
+----------------------------------space optimization code-------- with TC -> O(n) and SC -> O(1)------------------
+
+	public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
+    int n = nums.size();
+		int prev2 =0 ;
+		int prev=nums.get(0);
+		for(int i=1; i<n;i++){
+			int take = nums.get(i);
+			if(i>1) take+= prev2;
+			int notake = 0 + prev;
+			int curi = Math.max(take, notake);
+			prev2=prev;
+			prev=curi;
+		}
+		return prev;
+	}
