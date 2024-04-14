@@ -1,0 +1,70 @@
+-----------------------recursive solution with TC -> O(2^n) and SC -> O(n)---------------------------
+static boolean f(int ind, int target, int[] arr){
+        if(target==0) return true;
+        if(ind==0) return arr[0]==target?true:false;
+        boolean notake= f(ind-1, target, arr);
+        boolean take = false;
+        if(arr[ind]<=target) take = f(ind-1, target - arr[ind],arr);
+
+        return take | notake;
+
+    }
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        return f(n-1,k,arr);
+    }
+
+-------------------------memoization solution with TC -> O(n*target)  and SC -> O(n*target) + O(n)-> auxiliary space
+      static boolean f(int ind, int target, int[] arr, Boolean[][] dp){
+        if(target==0) return true;
+        if(ind==0) return arr[0]==target?true:false;
+        boolean notake= f(ind-1, target, arr,dp);
+        boolean take = false;
+        if(dp[ind][target]!=null) return dp[ind][target];
+        if(arr[ind]<=target) take = f(ind-1, target - arr[ind],arr,dp);
+
+        return dp[ind][target] = take || notake;
+
+    }
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        Boolean[][] dp = new Boolean[n][k+1];
+        return f(n-1,k,arr,dp);
+    }
+
+-----------------------Tabulation solution with TC -> O(n*target) and SC-> O(n*target)------------
+      public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        boolean[][] dp = new boolean[n][k+1];
+        for(int i=0; i<n;i++) dp[i][0]=true;
+        if(arr[0]<=k) dp[0][arr[0]] = true;
+        for(int ind=1; ind<n;ind++){
+            for(int target=1;target<=k;target++){
+                boolean notake= dp[ind-1][target];
+                boolean take = false;
+                if(arr[ind]<=target) take = dp[ind-1][target - arr[ind]];
+                dp[ind][target] = take || notake;
+            }
+        }
+        return dp[n-1][k];
+    }
+
+-------------------------Space optimized solution with TC-> O(n*target) and SC-> O(target)----
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        boolean[] prev = new boolean[k+1];
+        prev[0]=true;
+        if(arr[0]<=k) prev[arr[0]] = true;
+        for(int ind=1; ind<n;ind++){
+            boolean[] cur = new boolean[k+1];
+            cur[0]=true;
+            for(int target=1;target<=k;target++){
+                boolean notake= prev[target];
+                boolean take = false;
+                if(arr[ind]<=target) take = prev[target - arr[ind]];
+                cur[target] = take || notake;
+            }
+            prev=cur;
+        }
+        return prev[k];
+    }
