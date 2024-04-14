@@ -1,0 +1,28 @@
+------------------Space optimized solution with TC -> O(n*target) +O(n) and SC -> O(target)--------
+
+public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        boolean[] prev = new boolean[k+1];
+        prev[0]=true;
+        if(arr[0]<=k) prev[arr[0]] = true;
+        for(int ind=1; ind<n;ind++){
+            boolean[] cur = new boolean[k+1];
+            cur[0]=true;
+            for(int target=1;target<=k;target++){
+                boolean notake= prev[target];
+                boolean take = false;
+                if(arr[ind]<=target) take = prev[target - arr[ind]];
+                cur[target] = take || notake;
+            }
+            prev=cur;
+        }
+        return prev[k];
+    }
+	public static boolean canPartition(int[] arr, int n) {
+		// Write your code here.
+		int sum=0;
+		for(int i=0; i<n;i++) sum+=arr[i];
+		if(sum%2!=0) return false;
+		int target = sum/2;
+		return subsetSumToK(n, target, arr);
+	}
